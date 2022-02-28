@@ -1,26 +1,35 @@
 import React from 'react';
 import * as RB from 'react-bootstrap';
 
-export default function ItemList() {
+interface User {
+    name: string;
+    description: string;
+    image: string;
+    date: string;
+}
+
+const ItemList:React.FC = (props) => {
+    let list2: any;
+    list2 = localStorage.getItem('list');
     return (
-        <RB.Table striped bordered hover>
+        <RB.Table striped bordered hover className='scroll-area-xl'>
             <thead>
                 <tr>
-                <th>#</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Username</th>
+                    <th>Name</th>
+                    <th>Date</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                </tr>
+                {   list2?.map((it:User, id:number)=> <tr key={`user-list-${id}`}>
+                        <td>{it.name}</td>
+                        <td>{it.date}</td>
+                    </tr>)
+                }
             </tbody>
         </RB.Table>
             
     )
 }
+
+
+export default ItemList;

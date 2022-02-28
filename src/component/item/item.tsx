@@ -10,7 +10,18 @@ function Item() {
             <RB.Container>
                 <RB.Row>
                     <RB.Col>
-                        <ItemList />
+                        <div className="p-4">
+                            <RB.Card>
+                                <div className="p-4">
+                                    <RB.Form>
+                                        <RB.Form.Group>
+                                            <RB.Form.Control type="string"></RB.Form.Control>
+                                        </RB.Form.Group>
+                                    </RB.Form>
+                                </div>
+                                <ItemList />
+                            </RB.Card>
+                        </div>
                     </RB.Col>
                     <RB.Col>
                         <div className="p-4">

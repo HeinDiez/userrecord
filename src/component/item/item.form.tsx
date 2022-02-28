@@ -7,33 +7,36 @@ function ItemForm() {
     const descriptionRef = createRef<string | null>();
     const imageRef = createRef<string | null>();
     const dateRef = createRef<string | null>();
+    const onClickHandler = (e: any) => {
+        console.log("check here", e)
+    }
     return (
         <div>
             <Card>
                 <Card.Body>
-                    <h2 className='text-center mb-4'> Add new item</h2>
+                    <h2 className='text-left mb-4 font-weight-bold'> Create User</h2>
                     <Form>
-                        <Form.Group id='name'>
+                        <Form.Group id='name' className='mb-2'>
                             <Form.Label>Name</Form.Label>
                             <Form.Control type='text' required />
                         </Form.Group>
-                        <Form.Group id='description'>
+                        <Form.Group id='description' className='mb-2'>
                             <Form.Label>Description</Form.Label>
                             <Form.Control type='text'  required />
                         </Form.Group>
-                        <Form.Group id='image-link'>
+                        <Form.Group id='image-link' className='mb-2'>
                             <Form.Label>Image Link</Form.Label>
                             <Form.Control type='text'required />
                         </Form.Group>
-                        <Form.Group id='date'>
+                        <Form.Group id='date' className='mb-2'>
                             <Form.Label>Date</Form.Label>
                             <Form.Control type='text'  required />
                         </Form.Group>
-                        <Button className='w-100 mt-4' type='submit'>Add</Button>
+                        <Button className='w-100 mt-4' type='submit' onClick={onClickHandler}>Add</Button>
                     </Form>
                 </Card.Body>
             </Card>
-            <div className='w-100 text-center mt-2'>
+            <div className='w-100 text-left mt-2'>
                 Check here
             </div>
         </div>
