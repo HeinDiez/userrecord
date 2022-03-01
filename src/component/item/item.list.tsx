@@ -25,6 +25,13 @@ const ItemList:React.FC<Property> = (props) => {
             navigate('/create'); 
         }
     }, []);
+    function getFormattedDate(date: Date) {
+        let year = date.getFullYear();
+        let month = (1 + date.getMonth()).toString().padStart(2, '0');
+        let day = date.getDate().toString().padStart(2, '0');
+      
+        return month + '/' + day + '/' + year;
+    }
     return (
         <RB.Table striped bordered hover className='scroll-area-xl'>
             <thead>
@@ -35,10 +42,11 @@ const ItemList:React.FC<Property> = (props) => {
             <RB.ListGroup as="tbody">
                 {   list?.filter((e)=>e.name.toLowerCase().indexOf(props.search.toLowerCase()) > -1).map((it:User, id:number)=> (
                         <RB.ListGroup.Item className='p-0' as="tr" key={`user-list-${id}`} onClick={()=>props.setSelected(it)} active={props.selected?.id === it.id}>
-                            <div className="d-flex">
-                                <div className="mr-auto p-2">{it.name}</div>
-                                <div className="ml-auto p-2">{it.date}</div>
-                            </div>
+                            <td className="d-flex">
+                                <div className="p-2">{it.name}</div>
+                                <div className="m-auto p-2"/>
+                                <div className="p-2">{getFormattedDate(new Date(it.date))}</div>
+                            </td>
                         </RB.ListGroup.Item>
                     ))
                 }

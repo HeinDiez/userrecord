@@ -2,6 +2,9 @@ import React from 'react';
 import * as RB from 'react-bootstrap';
 import { Formik, Field, Form } from 'formik';
 import { useNavigate } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
+import DatePicker from "react-datepicker";
+import * as Yup from 'yup';
 
 interface Values {
     name: string;
@@ -20,13 +23,26 @@ const defaultValues = {
     date: ''
 }
 
+const UserSchema = Yup.object().shape({
+    firstName: Yup.string()
+        .matches(
+            /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+            'Enter correct url!'
+        )
+        .required('Please enter website'),
+});
+
 const ItemForm:React.FC<Property> = (props) => {
     let navigate = useNavigate();
     const [time, setTime] = React.useState(5);
+    const [picker, onOpenDatePicker] = React.useState(false);
+    const [date, setDate] = React.useState(new Date());
     const onSubmitHandler = (values: Values) => {
+        const fileUUID = uuidv4();
         let raw: any = localStorage.getItem('list');
         let list: Values[] = JSON.parse(raw);
-        const listValue = list? JSON.stringify([...list, {...values, id: list.length + 1}]): JSON.stringify([{...values, id: 1}]);
+        console.log(values, "test")
+        const listValue = list? JSON.stringify([...list, {...values, id: fileUUID, date}]): JSON.stringify([{...values, id: fileUUID, date}]);
         localStorage.setItem("list",listValue);
         navigate('/')
         props.setAlert({ show: true, variant: 'success', message: "User Added Successfully"});
@@ -46,10 +62,14 @@ const ItemForm:React.FC<Property> = (props) => {
                     <RB.Col xl="auto">
                         <RB.Card className='mb-4' style={{ width: '35rem' }}>
                             <RB.Card.Header>
-                                <h2 className='text-left font-weight-bold'>User</h2>
+                                <div className="d-flex">
+                                    <h2 className='text-left font-weight-bold'>User</h2>
+                                    <div className="m-auto p-2"/>
+                                    <RB.CloseButton className='mt-1' onClick={()=>navigate('/')} />
+                                </div>
                             </RB.Card.Header>
                             <RB.Card.Body>
-                                <Formik initialValues={defaultValues} onSubmit={onSubmitHandler}>
+                                <Formik initialValues={defaultValues} onSubmit={onSubmitHandler} validationSchema={UserSchema}>
                                     <Form>
                                         <RB.Form.Label className='text-left'>Name</RB.Form.Label>
                                         <RB.Form.Group id='name' className='mb-2'>
@@ -65,7 +85,9 @@ const ItemForm:React.FC<Property> = (props) => {
                                         </RB.Form.Group>
                                         <RB.Form.Group id='date' className='mb-2'>
                                             <RB.Form.Label>Date</RB.Form.Label>
-                                            <RB.Form.Control type='text' required name="date" as={Field}/>
+                                            <div>
+                                                <DatePicker wrapperClassName="w-100" className='form-control' selected={date} onChange={(d) => setDate(d)} />
+                                            </div>
                                         </RB.Form.Group>
                                         <RB.Button className='w-100 mt-4' type='submit'>Add</RB.Button>
                                     </Form>

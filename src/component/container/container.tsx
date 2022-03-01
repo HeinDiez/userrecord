@@ -4,6 +4,8 @@ import Header from '../common/header';
 import Item from '../item/item';
 import ItemForm from '../item/item.form';
 import Error from '../common/error';
+import SmoothMotion from '../common/SmoothMotion';
+
 
 function Container() {
     const [displayAlert, setAlert] = React.useState({ show: false, variant: 'success', message: ""});
