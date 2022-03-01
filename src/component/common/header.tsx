@@ -1,10 +1,15 @@
 import React from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
 
-function Header() {
+const Header:React.FC = (props) => {
+    let navigate = useNavigate();
     return (
-        <nav className="navbar navbar-light bg-light">
-            <span className="navbar-brand pl-2 h1">Item Records</span>
-        </nav>
+        <div>
+            <nav className="navbar navbar-light bg-light">
+                <span className="navbar-brand ml-2 h1" onClick={()=>navigate('/')}>User Records</span>
+            </nav>
+            <Outlet />
+        </div>
     );
 }
 

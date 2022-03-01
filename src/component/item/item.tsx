@@ -1,24 +1,49 @@
 import React from 'react';
 import * as RB from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
-import ItemForm from './item.form';
 import ItemList from './item.list';
 import ItemView from './item.view';
 
-function Item() {
+interface Alert {
+    show: boolean;
+    variant: string;
+    message: string
+}
+
+interface Property {
+    displayAlert: Alert;
+    setAlert: Function;
+}
+
+const Item:React.FC<Property> = (props) => {
+    let navigate = useNavigate();
     const [search, setSearch] = React.useState("");
     const [selected,setSelected] = React.useState(null);
     return (
         <div>
             <RB.Container>
                 <RB.Row>
+                    <div className="px-4 pt-4">
+                        <RB.Alert variant={props.displayAlert.variant} show={props.displayAlert.show}>
+                            {props.displayAlert.message} 
+                            <div className="d-flex justify-content-end">
+                                <RB.Button onClick={() => props.setAlert({ show: false, variant: 'success', message: ""})} variant="outline-success">
+                                    Close
+                                </RB.Button>
+                            </div>
+                        </RB.Alert>
+                    </div>
+                </RB.Row>
+                <RB.Row>
                     <RB.Col>
                         <div className="p-4">
                             <RB.Card>
                                 <div className="p-4">
-                                    <RB.Form>
-                                        <RB.Form.Group>
-                                            <RB.Form.Control type="string" value={search} onChange={(e)=>setSearch(e.target.value)}></RB.Form.Control>
+                                    <RB.Form className="d-flex">
+                                        <RB.Button onClick={()=>{navigate("/create");}}>Create</RB.Button>
+                                        <RB.Form.Group className='px-2 w-100'>
+                                            <RB.Form.Control type="string" value={search} placeholder="Search" onChange={(e)=>setSearch(e.target.value)}></RB.Form.Control>
                                         </RB.Form.Group>
                                     </RB.Form>
                                 </div>
@@ -28,9 +53,7 @@ function Item() {
                     </RB.Col>
                     <RB.Col>
                         <div className="p-4">
-                            {   selected?
-                                <ItemView selected={selected} />: <ItemForm />
-                            }
+                            <ItemView selected={selected} setAlert={props.setAlert} setSelected={setSelected}/>
                         </div>
                     </RB.Col>
                 </RB.Row>
