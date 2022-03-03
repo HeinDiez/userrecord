@@ -2,25 +2,14 @@ import React from 'react';
 import * as RB from 'react-bootstrap';
 import SmoothMotion from '../common/SmoothMotion';
 import { useNavigate } from 'react-router-dom';
+import * as Interface from './item.interface'
 
-interface User {
-    id: number;
-    name: string;
-    description: string;
-    image: string;
-    date: string;
-}
-interface Property {
-    selected: User | null;
-    setAlert: Function;
-    setSelected: Function;
-}
 
-const ItemView: React.FC<Property> = ({ selected, setAlert, setSelected }) => {
+const ItemView: React.FC<Interface.ItemView> = ({ selected, setAlert, setSelected }) => {
     let navigate = useNavigate();
-    const onDelete = (value: User) => {
+    const onDelete = (value: Interface.User) => {
         let raw: any = localStorage.getItem('list');
-        let list: User[] = JSON.parse(raw);
+        let list: Interface.User[] = JSON.parse(raw);
         let stack = [...list];
         stack.forEach((e,i)=>{
             if (e.id === selected?.id){
@@ -28,11 +17,11 @@ const ItemView: React.FC<Property> = ({ selected, setAlert, setSelected }) => {
                 const listValue = JSON.stringify([...stack]);
                 localStorage.setItem("list",listValue);
                 setSelected(null);
-                setAlert({ show: true, variant: 'info', message: `Succesfully deleted ${selected.id}, ${selected.name}`})
+                setAlert({ show: true, variant: 'info', message: `Succesfully deleted ${selected?.id}, ${selected.name}`})
             }
         });
     }
-    function onEdit (value: User) {
+    function onEdit (value: Interface.User) {
         navigate(`/edit/${value.id}`);
     }
     function getFormattedDate(date: Date) {

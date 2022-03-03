@@ -5,19 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import ItemList from './item.list';
 import ItemView from './item.view';
 import SmoothMotion from '../common/SmoothMotion';
+import * as Interface from './item.interface';
 
-interface Alert {
-    show: boolean;
-    variant: string;
-    message: string
-}
-
-interface Property {
-    displayAlert: Alert;
-    setAlert: Function;
-}
-
-const Item:React.FC<Property> = (props) => {
+const Item:React.FC<Interface.Property> = (props) => {
     let navigate = useNavigate();
     const [search, setSearch] = React.useState("");
     const [selected,setSelected] = React.useState(null);

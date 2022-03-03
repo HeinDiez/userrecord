@@ -6,29 +6,10 @@ import { v4 as uuidv4 } from 'uuid';
 import DatePicker from "react-datepicker";
 import * as Yup from 'yup';
 import SmoothMotion from '../common/SmoothMotion';
+import * as Interface from './item.interface';
 
-interface Values {
-    id: string;
-    name: string;
-    description: string;
-    image: string;
-    date: any;
-}
-interface Alert {
-    show: boolean;
-    variant: string;
-    message: string
-}
-interface Property {
-    setAlert: Function;
-    displayAlert: Alert;
-}
-type editParams = {
-    id: string;
-};
-
-const ItemForm:React.FC<Property> = (props) => {
-    let { id } = useParams<editParams>();
+const ItemForm:React.FC<Interface.Property> = (props) => {
+    let { id }= useParams<'id'>()!;
     let navigate = useNavigate();
     const [defaultValue, setdefaultValue] = React.useState({id: '',name: '',description: '',image: '',date: new Date()});
     // const [date, setDate] = React.useState(new Date());
@@ -45,14 +26,14 @@ const ItemForm:React.FC<Property> = (props) => {
     React.useEffect(()=>{
         if (id) {
             let raw: any = localStorage.getItem('list');
-            let list: Values[] = JSON.parse(raw);
-            let exist = list.filter((i)=>i.id === id);
+            let list = JSON.parse(raw);
+            let exist = list.filter((i: Interface.User)=>i.id === id);
+            console.log(exist, "check here")
             if (exist.length > 0) {
                 setdefaultValue({...exist[0], date: new Date(exist[0]?.date)});
-                // setDate(new Date(exist[0]?.date));?
             } else {
                 props.setAlert({ show: true, variant: 'error', message: "Error: ID not found"});
-                setTimeout(function(){
+                setTimeout(()=>{
                     props.setAlert({ show: false, variant: 'success', message: ""});
                 }, 5000);
                 navigate('/create')
@@ -61,18 +42,18 @@ const ItemForm:React.FC<Property> = (props) => {
             navigate('/create')
         }
     },[navigate, id, props]);
-    const onSubmitHandler = (values: Values) => {
+    const onSubmitHandler = (values: Interface.User) => {
         if (id) {
             let raw: any = localStorage.getItem('list');
-            let list: Values[] = JSON.parse(raw);
-            let exist = list.findIndex((i)=>i.id === id);
+            let list = JSON.parse(raw);
+            let exist = list.findIndex((i: Interface.User)=>i.id === id);
             list[exist] = {...values};
             let listValue = JSON.stringify(list);
             localStorage.setItem("list",listValue);
         } else {
             const fileUUID = uuidv4();
             let raw: any = localStorage.getItem('list');
-            let list: Values[] = JSON.parse(raw);
+            let list = JSON.parse(raw);
             const listValue = list? JSON.stringify([...list, {...values, id: fileUUID}]): JSON.stringify([{...values, id: fileUUID}]);
             localStorage.setItem("list",listValue);
         }

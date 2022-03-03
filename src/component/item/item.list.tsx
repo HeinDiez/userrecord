@@ -1,24 +1,12 @@
 import React from 'react';
 import * as RB from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import * as Interface from './item.interface';
 
-interface User {
-    id: number;
-    name: string;
-    description: string;
-    image: string;
-    date: string;
-}
-interface Property {
-    search: string;
-    selected: User | null;
-    setSelected: Function;
-}
-
-const ItemList:React.FC<Property> = (props) => {
+const ItemList:React.FC<Interface.ItemList> = (props) => {
     let navigate = useNavigate();
     let raw: any = localStorage.getItem('list');
-    let list: User[] = JSON.parse(raw);
+    let list: Interface.User[] = JSON.parse(raw);
     React.useEffect(()=>{
         if (list?.length === 0 || list === null) {
             navigate('/create'); 
@@ -39,7 +27,7 @@ const ItemList:React.FC<Property> = (props) => {
                 </tr>
             </thead>
             <RB.ListGroup as="tbody">
-                {   list?.filter((e)=>e.name.toLowerCase().indexOf(props.search.toLowerCase()) > -1).map((it:User, id:number)=> (
+                {   list?.filter((e)=>e.name.toLowerCase().indexOf(props.search.toLowerCase()) > -1).map((it:Interface.User, id:number)=> (
                         <RB.ListGroup.Item className='p-0' as="tr" key={`user-list-${id}`} onClick={()=>{
                             props.setSelected(it)
                         }} active={props.selected?.id === it.id}>
@@ -51,17 +39,7 @@ const ItemList:React.FC<Property> = (props) => {
                         </RB.ListGroup.Item>
                     ))
                 }
-                
             </RB.ListGroup>
-            {/* <tbody>
-                {   list?.filter((e)=>e.name.indexOf(props.search) > -1).map((it:User, id:number)=> (
-                        <tr key={`user-list-${id}`} onClick={()=>props.setSelected(it)} active={}>
-                            <td>{it.name}</td>
-                            <td>{it.date}</td>
-                        </tr>
-                    ))
-                }
-            </tbody> */}
         </RB.Table>
             
     )
