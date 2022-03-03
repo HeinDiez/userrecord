@@ -86,13 +86,13 @@ const ItemForm:React.FC<Property> = (props) => {
                                         <RB.Form.Group id='date' className='mb-2'>
                                             <RB.Form.Label>Date</RB.Form.Label>
                                             <div>
-                                                <DatePicker wrapperClassName="w-100" className='form-control' selected={date} onChange={(d) => setDate(d)} />
+                                                <DatePicker wrapperClassName="w-100" className='form-control' selected={date} onChange={(d:any) => setDate(d)} />
                                             </div>
                                         </RB.Form.Group>
                                         <RB.Button className='w-100 mt-4' type='submit'>Add</RB.Button>
                                     </Form>
                                 </Formik>
-                            </RB.Card.Body>
+                        </RB.Card.Body>
                         </RB.Card>
                         <div className='w-100 text-center mt-2'>
                             Give Feedback
