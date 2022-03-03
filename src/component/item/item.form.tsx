@@ -69,7 +69,7 @@ const ItemForm:React.FC<Interface.Property> = (props) => {
                 <RB.Row className="justify-content-md-center">
                     <RB.Col xl="auto">
                         <div className="px-4 pt-4">
-                            <RB.Alert variant={props.displayAlert.variant} show={props.displayAlert.show}>
+                            <RB.Alert variant={props.displayAlert.variant} show={props.displayAlert.show} className="w-100">
                                 {props.displayAlert.message} 
                                 <div className="d-flex justify-content-end">
                                     <RB.Button onClick={() => props.setAlert({ show: false, variant: 'success', message: ""})} variant="outline-success">
@@ -121,6 +121,7 @@ const ItemForm:React.FC<Interface.Property> = (props) => {
                                                     {form.errors.image}
                                                 </RB.Form.Text>
                                             ) : null}
+                                            {   form?.values?.image? <RB.Card.Img variant="top" src={form?.values?.image} />: ""}
                                         </RB.Form.Group>
                                         <RB.Form.Group id='date' className='mb-2'>
                                             <RB.Form.Label>Date</RB.Form.Label>
