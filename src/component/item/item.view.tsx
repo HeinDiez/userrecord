@@ -1,5 +1,7 @@
 import React from 'react';
 import * as RB from 'react-bootstrap';
+import SmoothMotion from '../common/SmoothMotion';
+import { useNavigate } from 'react-router-dom';
 
 interface User {
     id: number;
@@ -8,11 +10,6 @@ interface User {
     image: string;
     date: string;
 }
-interface Alert {
-    show: boolean;
-    variant: string;
-    message: string
-}
 interface Property {
     selected: User | null;
     setAlert: Function;
@@ -20,6 +17,7 @@ interface Property {
 }
 
 const ItemView: React.FC<Property> = ({ selected, setAlert, setSelected }) => {
+    let navigate = useNavigate();
     const onDelete = (value: User) => {
         let raw: any = localStorage.getItem('list');
         let list: User[] = JSON.parse(raw);
@@ -34,6 +32,9 @@ const ItemView: React.FC<Property> = ({ selected, setAlert, setSelected }) => {
             }
         });
     }
+    function onEdit (value: User) {
+        navigate(`/edit/${value.id}`);
+    }
     function getFormattedDate(date: Date) {
         let year = date.getFullYear();
         let month = (1 + date.getMonth()).toString().padStart(2, '0');
@@ -45,7 +46,8 @@ const ItemView: React.FC<Property> = ({ selected, setAlert, setSelected }) => {
         return null;
     }
     return (
-        <RB.Card>
+        <SmoothMotion>
+            <RB.Card>
             <RB.Card.Header>
                 <div className="d-flex">
                     <h5 className='text-left font-weight-bold'> {selected?.id} </h5>
@@ -59,11 +61,13 @@ const ItemView: React.FC<Property> = ({ selected, setAlert, setSelected }) => {
                 <RB.Card.Subtitle className="mb-4 text-muted">{selected?.description}</RB.Card.Subtitle>
                 <RB.Card.Text> {getFormattedDate(new Date(selected?.date))} </RB.Card.Text>
                 <div className="d-flex">
-                    <RB.Button className="mx-1" >Edit</RB.Button>
+                    <RB.Button className="mx-1" onClick={()=>onEdit(selected)}>Edit</RB.Button>
                     <RB.Button className="mx-1" onClick={()=>onDelete(selected)}>Delete</RB.Button>
                 </div>
             </RB.Card.Body>
         </RB.Card>
+        </SmoothMotion>
+        
     )
 }
 

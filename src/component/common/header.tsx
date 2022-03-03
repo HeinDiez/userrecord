@@ -1,5 +1,6 @@
 import React from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
+import SmoothMotion from './SmoothMotion';
 
 const Header:React.FC = (props) => {
     let navigate = useNavigate();
@@ -8,7 +9,9 @@ const Header:React.FC = (props) => {
             <nav className="navbar navbar-light bg-light">
                 <span className="navbar-brand p-2 h1" onClick={()=>navigate('/')}>User Records</span>
             </nav>
-            <Outlet />
+            <SmoothMotion>
+                <Outlet />
+            </SmoothMotion>
         </div>
     );
 }

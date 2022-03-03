@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import ItemList from './item.list';
 import ItemView from './item.view';
+import SmoothMotion from '../common/SmoothMotion';
 
 interface Alert {
     show: boolean;
@@ -21,7 +22,7 @@ const Item:React.FC<Property> = (props) => {
     const [search, setSearch] = React.useState("");
     const [selected,setSelected] = React.useState(null);
     return (
-        <div>
+        <SmoothMotion>
             <RB.Container>
                 <RB.Row>
                     <div className="px-4 pt-4">
@@ -58,7 +59,7 @@ const Item:React.FC<Property> = (props) => {
                     </RB.Col>
                 </RB.Row>
             </RB.Container>
-        </div>
+        </SmoothMotion>
     );
 }
 

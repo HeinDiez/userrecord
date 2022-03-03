@@ -4,7 +4,6 @@ import Header from '../common/header';
 import Item from '../item/item';
 import ItemForm from '../item/item.form';
 import Error from '../common/error';
-import SmoothMotion from '../common/SmoothMotion';
 
 
 function Container() {
@@ -15,7 +14,8 @@ function Container() {
                 <Routes>
                     <Route element={<Header />}>
                         <Route index element={<Item displayAlert={displayAlert} setAlert={setAlert}/>} />
-                        <Route path={'/create'} element={<ItemForm setAlert={setAlert}/>} />
+                        <Route path={'/create'} element={<ItemForm displayAlert={displayAlert} setAlert={setAlert}/>} />
+                        <Route path={'/edit/:id'} element={<ItemForm displayAlert={displayAlert} setAlert={setAlert}/>} />
                         <Route path='*' element={<Error />}/>
                     </Route>
                 </Routes>

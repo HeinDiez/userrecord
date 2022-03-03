@@ -21,10 +21,9 @@ const ItemList:React.FC<Property> = (props) => {
     let list: User[] = JSON.parse(raw);
     React.useEffect(()=>{
         if (list?.length === 0 || list === null) {
-            console.log(raw, "check here is ni sulod");
             navigate('/create'); 
         }
-    }, []);
+    }, [navigate, list]);
     function getFormattedDate(date: Date) {
         let year = date.getFullYear();
         let month = (1 + date.getMonth()).toString().padStart(2, '0');
@@ -41,7 +40,9 @@ const ItemList:React.FC<Property> = (props) => {
             </thead>
             <RB.ListGroup as="tbody">
                 {   list?.filter((e)=>e.name.toLowerCase().indexOf(props.search.toLowerCase()) > -1).map((it:User, id:number)=> (
-                        <RB.ListGroup.Item className='p-0' as="tr" key={`user-list-${id}`} onClick={()=>props.setSelected(it)} active={props.selected?.id === it.id}>
+                        <RB.ListGroup.Item className='p-0' as="tr" key={`user-list-${id}`} onClick={()=>{
+                            props.setSelected(it)
+                        }} active={props.selected?.id === it.id}>
                             <td className="d-flex">
                                 <div className="p-2">{it.name}</div>
                                 <div className="m-auto p-2"/>
