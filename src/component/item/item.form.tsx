@@ -7,6 +7,7 @@ import DatePicker from "react-datepicker";
 import * as Yup from 'yup';
 import SmoothMotion from '../common/SmoothMotion';
 import * as Interface from './item.interface';
+import { AnyObject } from 'yup/lib/object';
 
 const ItemForm:React.FC<Interface.Property> = (props) => {
     let { id }= useParams<'id'>()!;
@@ -28,7 +29,6 @@ const ItemForm:React.FC<Interface.Property> = (props) => {
             let raw: any = localStorage.getItem('list');
             let list = JSON.parse(raw);
             let exist = list.filter((i: Interface.User)=>i.id === id);
-            console.log(exist, "check here")
             if (exist.length > 0) {
                 setdefaultValue({...exist[0], date: new Date(exist[0]?.date)});
             } else {
@@ -93,52 +93,53 @@ const ItemForm:React.FC<Interface.Property> = (props) => {
                             </RB.Card.Header>
                             <RB.Card.Body>
                                 <Formik enableReinitialize initialValues={defaultValue} onSubmit={onSubmitHandler} validationSchema={UserSchema}>
-                                {({ errors, touched }) => (
-                                    <Form>
+                                {(form) => {
+                                    // console.log(form, "check here")
+                                    return <Form>
                                         <RB.Form.Label className='text-left'>Name</RB.Form.Label>
                                         <RB.Form.Group id='name' className='mb-2'>
                                             <RB.Form.Control type='text' name="name" as={Field}/>
-                                            {errors.name && touched.name ? (
+                                            {form.errors.name && form.touched.name ? (
                                                 <RB.Form.Text className="text-muted">
-                                                    {errors.name}
+                                                    {form.errors.name}
                                                 </RB.Form.Text>
                                             ) : null}
                                         </RB.Form.Group>
                                         <RB.Form.Group className="mb-3" controlId="formBasicEmail">
                                             <RB.Form.Label className='text-color-error'>Description</RB.Form.Label>
                                             <RB.Form.Control type="text" name="description"as={Field}/>
-                                            {errors.description && touched.description ? (
+                                            {form.errors.description && form.touched.description ? (
                                                 <RB.Form.Text className="text-muted">
-                                                    {errors.description}
+                                                    {form.errors.description}
                                                 </RB.Form.Text>
                                             ) : null}
                                         </RB.Form.Group>
                                         <RB.Form.Group id='image-link' className='mb-2'>
                                             <RB.Form.Label>Image Link</RB.Form.Label>
                                             <RB.Form.Control type='text' name="image" as={Field}/>
-                                            {errors.image && touched.image ? (
+                                            {form.errors.image && form.touched.image ? (
                                                 <RB.Form.Text className="text-muted">
-                                                    {errors.image}
+                                                    {form.errors.image}
                                                 </RB.Form.Text>
                                             ) : null}
                                         </RB.Form.Group>
                                         <RB.Form.Group id='date' className='mb-2'>
                                             <RB.Form.Label>Date</RB.Form.Label>
                                             <div>
-                                                <Field className="form-control w-100" as={DatePicker} wrapperClassName="w-100" name="date" selected={defaultValue.date} onChange={(date:any) => setdefaultValue({...defaultValue, date})}></Field>
+                                                <Field className="form-control w-100" as={DatePicker} wrapperClassName="w-100" name="date" id="date" selected={form.values.date} onChange={(e:any) => form.setFieldValue('date', e)} ></Field>
                                             </div>
                                             {/* <div>
                                                 <DatePicker wrapperClassName="w-100" className='form-control' selected={date} onChange={(d:any) => setDate(d)} />
                                             </div> */}
-                                            {errors.date && touched.date ? (
+                                            {form.errors.date && form.touched.date ? (
                                                 <RB.Form.Text className="text-muted">
-                                                    {errors.date}
+                                                    {form.errors.date}
                                                 </RB.Form.Text>
                                             ) : null}
                                         </RB.Form.Group>
                                         <RB.Button className='w-100 mt-4' type='submit'>{id? 'Update': 'Add'}</RB.Button>
                                     </Form>
-                                )}
+                                }}
                                     
                                 </Formik>
                         </RB.Card.Body>
