@@ -7,7 +7,6 @@ import DatePicker from "react-datepicker";
 import * as Yup from 'yup';
 import SmoothMotion from '../common/SmoothMotion';
 import * as Interface from './item.interface';
-import { AnyObject } from 'yup/lib/object';
 
 const ItemForm:React.FC<Interface.Property> = (props) => {
     let { id }= useParams<'id'>()!;
